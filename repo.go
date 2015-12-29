@@ -3,6 +3,8 @@ package gitcli
 import (
 	"errors"
 	"fmt"
+	"strings"
+	"os"
 )
 
 var gitCmd = "git"
@@ -11,6 +13,7 @@ var gitCmd = "git"
 type Repo struct {
 	workDir string
 	gitDir string
+	filteredEnv []string
 
 }
 
@@ -22,6 +25,12 @@ func New(repoDir string, args ...string) Repo {
 	} else {
 		r.gitDir = repoDir
 		r.gitDir += `/.git`
+	}
+	for _, v := range os.Environ() {
+		// filter locale sillines so command output is always english
+		if !strings.HasPrefix(v, "LANG=") && !strings.HasPrefix(v, "LC")  {
+			r.filteredEnv = append(r.filteredEnv,v)
+		}
 	}
 	return r
 }

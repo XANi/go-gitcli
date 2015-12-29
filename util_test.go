@@ -10,8 +10,8 @@ func TestVersion(t *testing.T) {
 
 	Convey("Returns version", t, func() {
 		z, err := r.Version()
-		So(err, ShouldEqual, nil)
-		So(z, ShouldContainSubstring, "git version")
 
+		So(z, ShouldContainSubstring, "git version")
+		So(err, ShouldEqual, nil)
 	})
 }

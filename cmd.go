@@ -5,7 +5,6 @@ import (
 	"os/exec"
 	"bytes"
 	//	"fmt"
-	"os"
 )
 
 
@@ -19,10 +18,9 @@ func (r *Repo) cmd(args ...string) ( string, string,  error) {
 //	res = exec.Command(gitCmd, cmdArgs...)
 	//	cmd := exec.Command(`git` ,`version`)
 	// make commands consistent
-	os.Unsetenv("LANG")
-	os.Unsetenv("LC_ALL")
 	cmd := exec.Command(`git` ,cmdArgs...)
-
+	// make commands consistent
+	cmd.Env = r.filteredEnv
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	if err := cmd.Start(); err != nil {
