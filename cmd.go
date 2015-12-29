@@ -4,7 +4,8 @@ import (
 //	"io"
 	"os/exec"
 	"bytes"
-//	"fmt"
+	//	"fmt"
+	"os"
 )
 
 
@@ -16,7 +17,10 @@ func (r *Repo) cmd(args ...string) ( string, string,  error) {
 	cmdArgs = append(cmdArgs, `--work-tree` , r.workDir, `--git-dir` , r.gitDir)
 	cmdArgs = append(cmdArgs, args...)
 //	res = exec.Command(gitCmd, cmdArgs...)
-//	cmd := exec.Command(`git` ,`version`)
+	//	cmd := exec.Command(`git` ,`version`)
+	// make commands consistent
+	os.Unsetenv("LANG")
+	os.Unsetenv("LC_ALL")
 	cmd := exec.Command(`git` ,cmdArgs...)
 
 	cmd.Stdout = &stdout

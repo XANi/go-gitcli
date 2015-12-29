@@ -12,7 +12,6 @@ func TestInit(t *testing.T) {
 	Convey("create tmp dir", t, func() {
 		So(err, ShouldEqual, nil)
 	})
-	tmpdir = `tmp/asd`
 
 	repo := New(tmpdir)
 	err = repo.Init()
@@ -22,6 +21,10 @@ func TestInit(t *testing.T) {
 		f, err := os.Stat(repoConfigPath)
 		So(err, ShouldEqual, nil)
 		So(f.Mode().IsRegular(), ShouldEqual, true)
+	})
+	Convey("reinitialize repo", t, func() {
+		err = repo.Init()
+		So(err,ShouldEqual,nil)
 	})
 
 }
