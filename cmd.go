@@ -25,7 +25,7 @@ func (r *Repo) cmd(args ...string) ( string, string,  error) {
 		return "", "", err
 	}
 	if err := cmd.Wait(); err != nil {
-				return "", "", err
+			return stdout.String(), stderr.String(), err
 	}
 	return stdout.String(), stderr.String(), err
 }

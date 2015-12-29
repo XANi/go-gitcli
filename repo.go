@@ -1,6 +1,12 @@
 package gitcli
 
+import (
+	"errors"
+	"fmt"
+)
+
 var gitCmd = "git"
+
 
 type Repo struct {
 	workDir string
@@ -15,12 +21,18 @@ func New(repoDir string, args ...string) Repo {
 		r.gitDir = args[0]
 	} else {
 		r.gitDir = repoDir
-		r.gitDir += `./.git`
+		r.gitDir += `/.git`
 	}
 	return r
 }
 
 func (r *Repo) Init() error {
 	var err error
-	return err
+	stdout, stderr, err := r.cmd(`init`)
+	if err == nil {
+		return err
+	} else {
+		return errors.New(fmt.Sprintf("Repo init error: %s, stdout: %s, stderr: %s",err,stdout,stderr))
+	}
+
 }
