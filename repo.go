@@ -14,6 +14,7 @@ type Repo struct {
 	workDir string
 	gitDir string
 	filteredEnv []string
+	trustedSigs map[string]bool
 
 }
 // Create new repo object.
@@ -35,6 +36,7 @@ func New(repoDir string, args ...string) Repo {
 			r.filteredEnv = append(r.filteredEnv,v)
 		}
 	}
+	r.trustedSigs = make(map[string]bool)
 	return r
 }
 
