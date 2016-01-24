@@ -16,6 +16,9 @@ type Repo struct {
 	filteredEnv []string
 
 }
+// Create new repo object.
+// First extra argument specifies git dir if it is different than standard ( $repo/.git )
+// It will also initialize environment, removing few vars like LC_* or LANG so the output of git commands is consistent regardless of system's language
 
 func New(repoDir string, args ...string) Repo {
 	var r Repo
