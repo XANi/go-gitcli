@@ -22,7 +22,12 @@ func (r *Repo)Fetch(extraArgs ...string) error {
 }
 
 func (r *Repo)Checkout(extraArgs ...string) error {
-	args := []string{`push`}
+	args := []string{`checkout`}
+	return r.commonCmd(args, extraArgs...)
+}
+
+func (r *Repo)Log(extraArgs ...string) error {
+	args := []string{`log`}
 	return r.commonCmd(args, extraArgs...)
 }
 

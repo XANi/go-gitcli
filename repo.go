@@ -14,6 +14,7 @@ type Repo struct {
 	workDir string
 	gitDir string
 	filteredEnv []string
+	// **full signatures** of allowed commiters
 	trustedSigs map[string]bool
 
 }
