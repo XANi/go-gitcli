@@ -31,6 +31,11 @@ func (r *Repo)Log(extraArgs ...string) error {
 	return r.commonCmd(args, extraArgs...)
 }
 
+func (r *Repo)Clean(extraArgs ...string) error {
+	args := []string{`clean`}
+	return r.commonCmd(args, extraArgs...)
+}
+
 // Add or set a given remote
 func (r *Repo)SetRemote(remoteName string, remoteUrl string ) error {
 	stdout, stderr, err := r.cmd("remote","set-url",remoteName,remoteUrl)
