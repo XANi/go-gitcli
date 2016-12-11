@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 	"os"
+	"path/filepath"
 )
 
 var gitCmd = "git"
@@ -24,6 +25,7 @@ type Repo struct {
 
 func New(repoDir string, args ...string) Repo {
 	var r Repo
+	repoDir, _  = filepath.Abs(repoDir)
 	r.workDir = repoDir
 	if (len(args) > 0) {
 		r.gitDir = args[0]
@@ -43,6 +45,8 @@ func New(repoDir string, args ...string) Repo {
 
 func (r *Repo) Init() error {
 	var err error
+	err = os.MkdirAll(r.workDir,0755)
+	if err != nil { return err }
 	stdout, stderr, err := r.cmd(`init`)
 	if err == nil {
 		return err

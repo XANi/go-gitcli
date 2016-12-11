@@ -23,6 +23,7 @@ func (r *Repo) cmd(args ...string) ( string, string,  error) {
 	cmd.Env = r.filteredEnv
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
+//	cmd.Dir = r.workDir
 	if err := cmd.Start(); err != nil {
 		return "", "", err
 	}

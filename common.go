@@ -16,8 +16,9 @@ func (r *Repo)commonCmd (cmd []string, extra ...string) error{
 	} else {
 		return errors.New(
 			fmt.Sprintf(
-				"Error running {%+v} with extra args {%+v}: error: %s, stdout: %s, stderr: %s",
+				"Error running {%+v} in repo[%s] with extra args {%+v}: error: %s, stdout: %s, stderr: %s",
 				cmd,
+				r.workDir,
 				extra,
 				err,
 				stdout,

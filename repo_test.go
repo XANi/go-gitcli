@@ -9,10 +9,9 @@ import (
 
 func TestInit(t *testing.T) {
 	tmpdir, err := ioutil.TempDir("tmp","git")
-	Convey("create tmp dir", t, func() {
+	Convey("create tmp dir" + tmpdir, t, func() {
 		So(err, ShouldEqual, nil)
 	})
-
 	repo := New(tmpdir)
 	err = repo.Init()
 	Convey("create repo", t, func() {
