@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-var gitGpgRegex = regexp.MustCompile(`^(.+)\|(.+)$`)
+var gitGpgRegex = regexp.MustCompile(`^(.+)\|(.+)\s*$`)
 // verify a given commit's GPG sig
 // anything that refers to commit will work (like HEAD~3)
 func (r *Repo) GetCommitSignature(commit string) (key  string, signed bool, err error) {
@@ -48,5 +48,5 @@ func (r *Repo) VerifyCommit (commit string) (bool, error){
 			return true, err
 		}
 	}
-	return false, fmt.Errorf("no commit [%s] in list: %+v", commit,r.trustedSigs)
+	return false, fmt.Errorf("no commit [%s] with sig [%s] in list: %+v", commit, sigID,r.trustedSigs)
 }
