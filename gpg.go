@@ -3,14 +3,15 @@ package gitcli
 import (
 	"regexp"
 	"strings"
+	"fmt"
 )
 
 var gitGpgRegex = regexp.MustCompile(`^(.+)\|(.+)$`)
 // verify a given commit's GPG sig
 // anything that refers to commit will work (like HEAD~3)
 func (r *Repo) GetCommitSignature(commit string) (key  string, signed bool, err error) {
-	stdout, _, err := r.cmd(`log`, `--format=%G?|%GK`,`-1`, commit, `--`)
-	if (err != nil )  { return "", false, err }
+	stdout, stderr, err := r.cmd(`log`, `--format=%G?|%GK`,`-1`, commit, `--`)
+	if (err != nil )  { return "", false, fmt.Errorf("Error while running git log: %s|%s|%s", stdout, stderr, err) }
 	matches := gitGpgRegex.FindStringSubmatch(stdout)
 	if (len(matches) < 3) {
 		return "", false, err
