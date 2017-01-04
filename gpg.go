@@ -20,7 +20,7 @@ func (r *Repo) GetCommitSignature(commit string) (key  string, signed bool, err 
 		if (matches[1] == "G" || matches[1] == "U") {
 			return matches[2], true, err
 		} else {
-			return matches[2], false, err
+			return matches[2], false, fmt.Errorf("git returned bad commit state: %s", matches[1])
 		}
 	}
 }
