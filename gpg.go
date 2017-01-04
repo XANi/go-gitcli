@@ -14,11 +14,11 @@ func (r *Repo) GetCommitSignature(commit string) (key  string, signed bool, err 
 	if (err != nil )  { return "", false, fmt.Errorf("Error while running git log: %s|%s|%s", stdout, stderr, err) }
 	matches := gitGpgRegex.FindStringSubmatch(stdout)
 	if (len(matches) < 3) {
-		return "", false, err
+		return "", false, fmt.Errorf("couldn't match git log output: %s | %+v", stdout, matches)
 	} else {
 		// G - good, U - good, untrusted
 		if (matches[1] == "G" || matches[1] == "U") {
-			return matches[2], true, err
+			return matches[2], true, nil
 		} else {
 			return matches[2], false, fmt.Errorf("git returned bad commit state: %s", matches[1])
 		}
@@ -39,14 +39,14 @@ func (r *Repo) SetTrustedSignatures(sigs []string) {
 // VerifyCommit checks if given commit is signed by one of sigs set in SetTrustedSignatures
 // git log only passes 16 characters of fingerprint so it only checks for substring of that signature
 func (r *Repo) VerifyCommit (commit string) (bool, error){
-	sigID, correct, err := r.GetCommitSignature(commit)
+	sigID, _, err := r.GetCommitSignature(commit)
 	if err != nil {return false, err}
-	if !correct {return false, err}
+//	if !correct {return false, fmt.Errorf("Git log said commit sig is incorrect %s", err)}
 	// hopefully when git changes it to provide full fingerprint it can be changed to just hash lookup
 	for testedSig := range r.trustedSigs {
 		if strings.Contains(testedSig, sigID) {
 			return true, err
 		}
 	}
-	return false, err
+	return false, fmt.Errorf("no commit [%s] in list: %+v", commit,r.trustedSigs)
 }
