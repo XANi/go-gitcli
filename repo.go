@@ -17,7 +17,7 @@ type Repo struct {
 	filteredEnv []string
 	// **full signatures** of allowed commiters
 	trustedSigs map[string]bool
-
+	debug bool
 }
 // Create new repo object.
 // First extra argument specifies git dir if it is different than standard ( $repo/.git )
@@ -41,6 +41,10 @@ func New(repoDir string, args ...string) Repo {
 	}
 	r.trustedSigs = make(map[string]bool)
 	return r
+}
+
+func (r *Repo) SetDebug(d bool) {
+	r.debug  = d
 }
 
 func (r *Repo) Init() error {

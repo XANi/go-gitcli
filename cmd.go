@@ -4,7 +4,7 @@ import (
 //	"io"
 	"os/exec"
 	"bytes"
-	//	"fmt"
+	"fmt"
 )
 
 
@@ -18,12 +18,18 @@ func (r *Repo) cmd(args ...string) ( string, string,  error) {
 //	res = exec.Command(gitCmd, cmdArgs...)
 	//	cmd := exec.Command(`git` ,`version`)
 	// make commands consistent
+	if r.debug {
+		fmt.Printf("debug: executing git command: %+v",cmdArgs)
+	}
 	cmd := exec.Command(`git` ,cmdArgs...)
 	// make commands consistent
 	cmd.Env = r.filteredEnv
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	cmd.Dir = r.workDir
+	if r.debug {
+		fmt.Printf("git command finished. stdout [%s], stderr [%s]",stdout.String(),stderr.String())
+	}
 	if err := cmd.Start(); err != nil {
 		return "", "", err
 	}
