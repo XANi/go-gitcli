@@ -19,7 +19,7 @@ func (r *Repo) cmd(args ...string) ( string, string,  error) {
 	//	cmd := exec.Command(`git` ,`version`)
 	// make commands consistent
 	if r.debug {
-		fmt.Printf("debug: executing git command: %+v",cmdArgs)
+		fmt.Printf("debug: executing git command: %+v\n",cmdArgs)
 	}
 	cmd := exec.Command(`git` ,cmdArgs...)
 	// make commands consistent
@@ -28,7 +28,7 @@ func (r *Repo) cmd(args ...string) ( string, string,  error) {
 	cmd.Stderr = &stderr
 	cmd.Dir = r.workDir
 	if r.debug {
-		fmt.Printf("git command finished. stdout [%s], stderr [%s]",stdout.String(),stderr.String())
+		fmt.Printf("git command finished. stdout [%s], stderr [%s]\n",stdout.String(),stderr.String())
 	}
 	if err := cmd.Start(); err != nil {
 		return "", "", err
